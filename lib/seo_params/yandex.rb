@@ -18,6 +18,11 @@ module SeoParams
       tic.to_s.to_i
     end
 
+    def yaca
+      query = Nokogiri::XML(open("http://bar-navig.yandex.ru/u?ver=2&show=32&url=#{@url}"))
+      query.xpath('//topic').any?
+    end
+
     def yandex_pages
       pages = ask_yandex(@url)
       (pages.is_a? String) ? (@url = pages; pages = ask_yandex(pages); ) : pages

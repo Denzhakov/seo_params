@@ -20,6 +20,7 @@ module SeoParams
       h["gp"] = gp(url)
       h["tic"] = tic(url)
       h["yap"] = yap(url)
+      h["yaca"] = yaca(url)
       h["tweets"] = tweets(url)
       h["likes"] = likes(url)
       h["ar"] = ar(url)
@@ -27,6 +28,7 @@ module SeoParams
       h["plus_ones"] = plus_ones(url)
       h["yahoo"] = yahoo(url)
       h["bing"] = bing(url)
+
       h
     end
 
@@ -40,6 +42,10 @@ module SeoParams
 
     def yap(url)
       Yandex.new(url).yandex_pages
+    end
+
+    def yaca(url)
+      Yandex.new(url).yaca
     end
 
     def gp(url)
