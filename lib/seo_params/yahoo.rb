@@ -13,7 +13,7 @@ module SeoParams
     end
 
     def yahoo_pages
-      matches = @response.match /[\d,]+?\sresults/
+      matches = @response.match /([\d,]+?)\sresults/
       if matches.nil?
         0
       else
