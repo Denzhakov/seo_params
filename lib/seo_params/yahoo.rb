@@ -8,12 +8,17 @@ module SeoParams
 
     def initialize(url)
       @url = url
-      @response = Nokogiri::HTML(open("http://search.yahoo.com/search?p=site:#{url}"))
+      @response = open("http://search.yahoo.com/search?p=site:#{url}").read
+      #7,330 results
     end
 
     def yahoo_pages
-      index = @response.xpath("//span[@id='resultCount']").first.children.to_s.delete! ","
-      index.to_i
+      matches = @response.match /[\d,]+?\sresults/
+      if matches.nil?
+        0
+      else
+        matches[1].gsub(',', '').to_i
+      end
     end
 
   end
