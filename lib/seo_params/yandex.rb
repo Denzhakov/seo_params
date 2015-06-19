@@ -23,6 +23,16 @@ module SeoParams
       query.xpath('//topic').any?
     end
 
+    def news
+      doc   = Nokogiri::HTML(open("https://news.yandex.ru/yandsearch?rptval=on&rpt=smisearch&grhow=clutop&text=#{@url}"))
+      index = 0
+      if doc.css('.total').length > 0
+        index = doc.css('.total dd').text()[/\d+/].to_i
+      end
+
+      index > 0
+    end
+
     def yandex_pages
       pages = ask_yandex(@url)
       (pages.is_a? String) ? (@url = pages; pages = ask_yandex(pages); ) : pages

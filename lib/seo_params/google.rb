@@ -15,11 +15,12 @@ module SeoParams
     def initialize(url)
       @url = url
       @host = get_host
+      @www  = get_www
     end
 
 
     def pagerank
-      query = PageRankr.ranks(@url, :google)
+      query = PageRankr.ranks(@www, :google)
       query[:google]
     end
 
@@ -27,6 +28,12 @@ module SeoParams
       doc = Nokogiri::HTML(open("https://www.google.com/search?hl=en&tab=ww&safe=active&tbo=d&sclient=psy-ab&q=site:#{@url}&oq=site:#{@url}"))
       pages = doc.css('div[@id="resultStats"]').to_s[/[\d,]+/] if doc.css('div[@id="subform_ctrl"]')
       pages ? pages.tr(',', '').to_i : 0
+    end
+
+    def news
+      doc   = Nokogiri::HTML(open("https://www.google.ru/search?hl=ru&gl=ru&authuser=0&tbm=nws&q=site:#{@url}&oq=site:#{@url}"))
+      index = doc.css('#res').text.length > 0
+      index
     end
 
     def google_position(hl, cr, keywords, num)
@@ -79,6 +86,11 @@ module SeoParams
         @url.match(/^(http:\/\/)/) ? full_url = @url : full_url = 'http://' + @url
         uri = URI(full_url)
         @host = uri.host
+      end
+
+      def get_www
+        @host.match(/^(www\.)/) ? full_url = @host : full_url = 'www.' + @host
+        full_url
       end
 
   end

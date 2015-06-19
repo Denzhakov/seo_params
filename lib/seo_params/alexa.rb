@@ -8,7 +8,7 @@ module SeoParams
 
     def initialize(url)
       @url = url
-      @response = Nokogiri::HTML(open("http://xml.alexa.com/data?cli=10&dat=nsa&ver=quirk-searchstatus&url=#{url}"))
+      @response = Nokogiri::HTML(open("http://xml.alexa.com/data?cli=10&dat=nsa&ver=quirk-searchstatus&url=#{@url}"))
     end
 
     def rank
@@ -21,7 +21,8 @@ module SeoParams
     end
 
     def dmoz
-       @response.xpath("//alexa/dmoz").length > 0 ? "yes" : "no"
+      doc = Nokogiri::HTML(open("http://www.dmoz.org/search?q=#{@url}"))
+      index = doc.css('.site').text.length > 0
     end
   end
 

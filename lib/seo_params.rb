@@ -48,8 +48,16 @@ module SeoParams
       Yandex.new(url).yaca
     end
 
+    def ynews(url)
+      Yandex.new(url).news
+    end
+
     def gp(url)
       Google.new(url).google_pages
+    end
+
+    def gnews(url)
+      Google.new(url).news
     end
 
     def yaposition(url, user, key, keywords, options = {})
